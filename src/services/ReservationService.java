@@ -6,7 +6,7 @@ import java.util.*;
 
 public class ReservationService {
 
-    List<Room> rooms = new ArrayList<>(Arrays.asList(
+    private Collection<IRoom> rooms = new ArrayList<>(Arrays.asList(
             new Room("101", 45.99, RoomType.DOUBLE),
             new Room("102", 35.99, RoomType.SINGLE),
             new Room("103", 35.99, RoomType.SINGLE),
@@ -21,9 +21,12 @@ public class ReservationService {
         rooms.add((Room) room);
     }
 
+    public Collection<IRoom> getRooms() {
+        return rooms;
+    }
     public IRoom getARoom(String roomNumber) {
-        Room room = null;
-        for(Room r : rooms){
+        IRoom room = null;
+        for(IRoom r : rooms){
             if(r.getRoomNumber() == roomNumber){
                 room = r;
             }

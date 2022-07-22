@@ -2,16 +2,16 @@ package services;
 
 import models.Customer;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CustomerService {
 
     private static CustomerService customerService = new CustomerService();
 
-    private List<Customer> customerList = new ArrayList<>();
+    private List<Customer> customerList = new ArrayList<>(Arrays.asList(
+            new Customer("Tiia", "Kansa", "tiia@gmail.com"),
+            new Customer("Igor", "Kansa", "kittenLittle@gmail.com")
+    ));
 
     public void addCustomer(String firstName, String lastName, String email){
         customerList.add(new Customer(firstName, lastName, email));
@@ -28,8 +28,7 @@ public class CustomerService {
     }
 
     public Collection<Customer> getAllCustomers(){
-        customerList.add(new Customer("Tiia", "Kansa", "tiia@gmail.com"));
-        customerList.add(new Customer("Igor", "Kansa", "kittenLittle@gmail.com"));
+
         return customerList;
     }
 

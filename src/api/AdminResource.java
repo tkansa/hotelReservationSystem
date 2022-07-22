@@ -19,6 +19,10 @@ public class AdminResource {
         return customer;
     }
 
+    public Collection<IRoom> getAllRooms(){
+        return reservationService.getRooms();
+    }
+
     public void addRoom(List<IRoom> rooms){
         for(IRoom room : rooms){
             reservationService.addRoom(room);

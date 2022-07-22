@@ -39,7 +39,6 @@ public class Room implements IRoom {
                 "roomNumber='" + roomNumber + '\'' +
                 ", roomPrice=" + roomPrice +
                 ", roomType=" + roomType +
-                ", isFree=" + isFree +
                 '}';
     }
 }
