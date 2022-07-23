@@ -20,7 +20,7 @@ public class CustomerService {
     public Customer getCustomer(String customerEmail){
         Customer customer = null;
         for(Customer c : customerList){
-            if(c.getEmail() == customerEmail){
+            if(c.getEmail().equals(customerEmail)){
                 customer = c;
             }
         }
