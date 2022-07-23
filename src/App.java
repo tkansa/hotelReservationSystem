@@ -2,16 +2,19 @@ import api.AdminResource;
 import api.HotelResource;
 import models.*;
 import services.CustomerService;
+import sun.java2d.loops.GraphicsPrimitiveProxy;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
 
         HotelResource hotelResource = new HotelResource();
         AdminResource adminResource = new AdminResource();
+        Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to the Hotel Reservation Application");
         System.out.println();
         int mainMenuSelection = 0;
@@ -42,9 +45,35 @@ public class App {
                        }
                     }
                     if(adminMenuSelection == 4){
-                        Collection<IRoom> newRooms = new ArrayList<>();
-                        IRoom room = Validators.addARoom();
-                        System.out.println(room);
+                        Collection<IRoom> existingRooms = adminResource.getAllRooms();
+                        List<IRoom> newRooms = new ArrayList<>();
+
+                        String addAnotherRoom = "y";
+                        while(addAnotherRoom.equals("y")){
+                            IRoom room = Validators.addARoom();
+                            boolean isDupRoomNum = false;
+                            for(IRoom r : existingRooms){
+                                if(r.getRoomNumber().equals(room.getRoomNumber())){
+                                    isDupRoomNum = true;
+                                }
+                            }
+                            if(isDupRoomNum){
+                                System.out.println("Sorry. Room number " + room.getRoomNumber() + " is already in the system.");
+                            }
+                            else{
+                                System.out.println("Thank you. Room " + room.getRoomNumber() + " was added.");
+                            }
+
+                            System.out.println("Would you like to add another room (y/n)?");
+                            addAnotherRoom = sc.nextLine().toLowerCase();
+                            while(!addAnotherRoom.equals("y") && !addAnotherRoom.equals("n")){
+                                System.out.println("Please enter y or n");
+                                System.out.println("Would you like to add another room (y/n)?");
+                                addAnotherRoom = sc.nextLine().toLowerCase();
+                            }
+                        }
+
+                        adminResource.addRoom(newRooms);
                     }
                 } while (adminMenuSelection != 6);
             }
