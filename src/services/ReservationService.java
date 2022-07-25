@@ -2,18 +2,21 @@ package services;
 
 import models.*;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class ReservationService {
 
-    private Collection<IRoom> rooms = new ArrayList<>(Arrays.asList(
-            new Room("101", 45.99, RoomType.DOUBLE),
-            new Room("102", 35.99, RoomType.SINGLE),
-            new Room("103", 35.99, RoomType.SINGLE),
-            new FreeRoom("201", RoomType.DOUBLE),
-            new FreeRoom("202", RoomType.SINGLE)));
+    private ReservationService(){
 
+    }
+    private Collection<IRoom> rooms = new ArrayList<>();
+
+
+    // use SimpleDateFormat
     List<Reservation> reservations = new ArrayList<>();
+
 
     private static ReservationService reservationService = new ReservationService();
 
@@ -35,6 +38,7 @@ public class ReservationService {
     }
 
     public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
+        reservations.add(new Reservation(customer, room, checkInDate, checkOutDate));
         return new Reservation(customer, room, checkInDate, checkOutDate);
     }
 

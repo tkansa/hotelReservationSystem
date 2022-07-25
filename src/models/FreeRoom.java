@@ -5,4 +5,5 @@ public class FreeRoom extends Room {
         super(roomNumber, 0.0, roomType);
         this.isFree = true;
     }
+
 }

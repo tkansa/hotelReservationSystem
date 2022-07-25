@@ -64,8 +64,6 @@ public class Validators {
                 email = sc.nextLine();
             }
         }
-        System.out.println("Thank you " + firstName + ". Your new account has been created!");
-
         return customer;
 
     }
@@ -80,7 +78,7 @@ public class Validators {
         System.out.println("2. See all rooms");
         System.out.println("3. See all reservations");
         System.out.println("4. Add a room");
-        System.out.println("5. Add test data??? Might just seed this in the service classes");
+        System.out.println("5. Add test data");
         System.out.println("6. Back to main menu");
         System.out.println("Please select a number for the menu option");
         selection = sc.nextLine();

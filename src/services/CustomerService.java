@@ -5,6 +5,8 @@ import models.Customer;
 import java.util.*;
 
 public class CustomerService {
+    private CustomerService() {
+    }
 
     private static CustomerService customerService = new CustomerService();
 
