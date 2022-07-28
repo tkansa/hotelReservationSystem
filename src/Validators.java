@@ -101,7 +101,7 @@ public class Validators {
             System.out.println("Please select a number for the menu option");
             selection = sc.nextLine();
         }while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3") && !selection.equals("4") && !selection.equals("5"));
-        //sc.close();
+
         return selection;
     }
 }
