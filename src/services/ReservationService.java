@@ -16,7 +16,7 @@ public class ReservationService {
     List<Reservation> reservations = new ArrayList<>();
 
 
-    private static ReservationService reservationService = new ReservationService();
+    private static ReservationService reservationService = null;
 
     public void addRoom(IRoom room){
         rooms.add((Room) room);
@@ -28,7 +28,7 @@ public class ReservationService {
     public IRoom getARoom(String roomNumber) {
         IRoom room = null;
         for(IRoom r : rooms){
-            if(r.getRoomNumber() == roomNumber){
+            if(r.getRoomNumber().equals(roomNumber)){
                 room = r;
             }
         }
@@ -42,9 +42,24 @@ public class ReservationService {
 
     // TODO fix logic in here
     public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate){
-        Collection<IRoom> foundRooms = new ArrayList<>();
+        Collection<IRoom> foundRooms = null;
+
+        // find all the rooms that aren't booked at all
+        for(IRoom room : rooms){
+            boolean isFree = true;
+            for(Reservation reservation : reservations){
+                if(room.getRoomNumber().equals(reservation.getRoom().getRoomNumber())){
+                    isFree = false;
+                }
+            }
+            if(isFree){
+                foundRooms.add(room);
+            }
+        }
         for(Reservation reservation : reservations){
-            if(reservation.getCheckInDate().equals(checkInDate) && reservation.getCheckOutDate().equals(checkOutDate)){
+            Date reservationCheckInDate = reservation.getCheckInDate();
+            Date reservationCheckOutDate = reservation.getCheckOutDate();
+            if(checkInDate.before(reservationCheckInDate) && checkOutDate.before(reservationCheckInDate) || checkInDate.after(reservationCheckOutDate) && checkOutDate.after(reservationCheckOutDate)){
                 foundRooms.add(reservation.getRoom());
             }
         }
@@ -70,8 +85,9 @@ public class ReservationService {
     }
 
     public static ReservationService getInstance(){
+        if(reservationService == null){
+            reservationService = new ReservationService();
+        }
         return reservationService;
     }
-
-
 }

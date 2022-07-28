@@ -8,7 +8,7 @@ public class CustomerService {
     private CustomerService() {
     }
 
-    private static CustomerService customerService = new CustomerService();
+    private static CustomerService customerService = null;
 
     List<Customer> customerList = new ArrayList<>();
 
@@ -32,7 +32,9 @@ public class CustomerService {
     }
 
     public static CustomerService getInstance(){
+        if(customerService == null){
+            customerService = new CustomerService();
+        }
         return customerService;
     }
-
 }

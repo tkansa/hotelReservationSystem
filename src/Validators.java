@@ -1,5 +1,9 @@
 import models.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Validators {
@@ -45,6 +49,33 @@ public class Validators {
         }
         return room;
     }
+
+    public static String bookARoom(Collection<IRoom> rooms){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Which room number would you like to book");
+        for(IRoom room : rooms){
+            System.out.println(room.toString());
+        }
+        boolean isValidRoomNumber = false;
+        String roomNumber = sc.nextLine();;
+        while(!isValidRoomNumber){
+
+            for(IRoom room : rooms){
+                if(room.getRoomNumber().equals(roomNumber)){
+                    isValidRoomNumber = true;
+                    break;
+                }
+            }
+            if(isValidRoomNumber){
+                break;
+            }
+            else{
+                System.out.println("Please enter a valid room number");
+                roomNumber = sc.nextLine();
+            }
+        }
+        return roomNumber;
+    }
     public static Customer createAccount(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Please enter your first name:");
@@ -67,6 +98,14 @@ public class Validators {
         return customer;
 
     }
+    
+   /* public static Reservation findAndReserveARoom(Collection<IRoom> rooms,Collection<Reservation> reservations, Customer customer){
+        Reservation reservation = null;
+
+        Date checkInDate = Validators.getDate("check in date");
+        Date checkOutDate = Validators.getDate("check out date");
+        return reservation;
+    }*/
 
     public static String getAdminMenu(){
         Scanner sc = new Scanner(System.in);
@@ -86,6 +125,25 @@ public class Validators {
         } while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3") && !selection.equals("4") && !selection.equals("5") && !selection.equals("6"));
         return selection;
     }
+
+
+    public static Date getDate(String msg){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter a " + msg + " (MM/dd/yyyy):");
+        String dateString = sc.nextLine();
+        boolean dateIsValid = false;
+        Date date = null;
+        while(!dateIsValid){
+            try{
+                date = new SimpleDateFormat("MM/dd/yyyy").parse(dateString);
+                dateIsValid = true;
+            } catch (ParseException e){
+                System.out.println("Please enter a valid date format (MM/dd/yyyy):");
+                dateString = sc.nextLine();
+            }
+        }
+        return date;
+    }
     public static String getMainMenu(){
 
         Scanner sc = new Scanner(System.in);
@@ -103,5 +161,16 @@ public class Validators {
         }while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3") && !selection.equals("4") && !selection.equals("5"));
 
         return selection;
+    }
+
+    public static String getYOrN(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter yes or no (y/n):");
+        String yesOrNo = sc.nextLine().toLowerCase();
+        while (!yesOrNo.equals("n") && !yesOrNo.equals("y")){
+            System.out.println("Please enter yes or no (y/n):");
+            yesOrNo = sc.nextLine();
+        }
+        return yesOrNo;
     }
 }
