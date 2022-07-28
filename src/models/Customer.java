@@ -14,7 +14,7 @@ public class Customer {
 
     public Customer(String firstName, String lastName, String email) {
         if(!pattern.matcher(email).matches()){
-            throw new IllegalArgumentException("Error, Invalid email. Please try again:");
+            throw new IllegalArgumentException("Error, invalid email. Please try again:");
         }
         this.firstName = firstName;
         this.lastName = lastName;

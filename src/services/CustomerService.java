@@ -10,10 +10,7 @@ public class CustomerService {
 
     private static CustomerService customerService = new CustomerService();
 
-    private List<Customer> customerList = new ArrayList<>(Arrays.asList(
-            new Customer("Tiia", "Kansa", "tiia@gmail.com"),
-            new Customer("Igor", "Kansa", "kittenLittle@gmail.com")
-    ));
+    List<Customer> customerList = new ArrayList<>();
 
     public void addCustomer(String firstName, String lastName, String email){
         customerList.add(new Customer(firstName, lastName, email));

@@ -6,7 +6,6 @@ import models.Reservation;
 import services.CustomerService;
 import services.ReservationService;
 
-import java.rmi.server.RemoteServer;
 import java.util.Collection;
 import java.util.Date;
 
@@ -34,8 +33,8 @@ public class HotelResource {
         return reservationService.reserveARoom(customerService.getCustomer(customerEmail), room, checkInDate, checkOutDate);
     }
 
-    public Collection<Reservation> getCusomerReservations(String customerEmail){
-        return getCusomerReservations(customerEmail);
+    public Collection<Reservation> getCustomerReservations(Customer customer){
+        return reservationService.getCustomerReservations(customer);
     }
 
     public Collection<IRoom> findARoom(Date checkInDate, Date checkOutDate){

@@ -11,10 +11,8 @@ public class ReservationService {
     private ReservationService(){
 
     }
-    private Collection<IRoom> rooms = new ArrayList<>();
+    Collection<IRoom> rooms = new ArrayList<>();
 
-
-    // use SimpleDateFormat
     List<Reservation> reservations = new ArrayList<>();
 
 
@@ -42,6 +40,7 @@ public class ReservationService {
         return new Reservation(customer, room, checkInDate, checkOutDate);
     }
 
+    // TODO fix logic in here
     public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate){
         Collection<IRoom> foundRooms = new ArrayList<>();
         for(Reservation reservation : reservations){
