@@ -40,9 +40,9 @@ public class ReservationService {
         return new Reservation(customer, room, checkInDate, checkOutDate);
     }
 
-    // TODO fix logic in here
+
     public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate){
-        Collection<IRoom> foundRooms = null;
+        Collection<IRoom> foundRooms = new ArrayList<>();
 
         // find all the rooms that aren't booked at all
         for(IRoom room : rooms){

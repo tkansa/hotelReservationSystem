@@ -4,7 +4,6 @@ import models.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 public class App {
@@ -18,10 +17,10 @@ public class App {
         System.out.println();
         int mainMenuSelection = 0;
 
-        do{
+        do {
             mainMenuSelection = Integer.parseInt(Validators.getMainMenu());
 
-            switch(mainMenuSelection){
+            switch (mainMenuSelection) {
 
                 // Find and reserve a room
                 case 1:
@@ -30,33 +29,30 @@ public class App {
                     String roomToReserve = "";
                     System.out.println("Do you have an account with us?");
                     String hasAccount = Validators.getYOrN();
-                    if(hasAccount.equals("n")){
+                    if (hasAccount.equals("n")) {
                         System.out.println("Please create an account before registering a room by choosing option 3 from the main menu.");
-                    }
-                    else{
+                    } else {
                         Customer customer = null;
                         System.out.println("Please enter your email address: ");
                         String email = sc.nextLine();
                         customer = hotelResource.getCustomer(email);
-                        if(customer == null){
+                        if (customer == null) {
                             System.out.println("It doesn't look like you have an account with us.");
                             System.out.println("Please create an account before registering a room by choosing option 3 from the main menu.");
 
-                        }
-                        else{
+                        } else {
                             Date checkInDate = Validators.getDate("check in date");
                             Date checkOutDate = Validators.getDate("check out date");
-                            if(checkInDate.after(checkOutDate)){
+                            if (checkInDate.after(checkOutDate)) {
                                 System.out.println("Invalid dates! Check out date cannot be before check in date.");
-                            }
-                            else{
+                            } else {
                                 availableRooms = hotelResource.findARoom(checkInDate, checkOutDate);
-                                if (availableRooms == null){
+                                if (availableRooms.isEmpty()) {
 
                                     System.out.println("Sorry, nothing is available!");
                                     System.out.println("Would you like to search a week later?");
                                     String answer = Validators.getYOrN();
-                                    if(answer.equals("y")){
+                                    if (answer.equals("y")) {
                                         Calendar cal = Calendar.getInstance();
                                         cal.setTime(checkInDate);
                                         cal.add(Calendar.DAY_OF_WEEK, 7);
@@ -66,38 +62,35 @@ public class App {
                                         checkOutDate = cal.getTime();
 
                                         availableRooms = hotelResource.findARoom(checkInDate, checkOutDate);
-                                        if (availableRooms != null) {
-                                            for (IRoom room : availableRooms){
+                                        if (!availableRooms.isEmpty()) {
+                                            for (IRoom room : availableRooms) {
                                                 System.out.println(room.toString());
                                             }
                                             System.out.println("Would you like to book one of these rooms?");
                                             String bookARoom = Validators.getYOrN();
-                                            if(bookARoom.equals("y")){
+                                            if (bookARoom.equals("y")) {
                                                 roomToReserve = Validators.bookARoom(availableRooms);
                                                 IRoom bookedRoom = hotelResource.getRoom(roomToReserve);
                                                 Reservation reservation = hotelResource.bookARoom(email, bookedRoom, checkInDate, checkOutDate);
                                                 System.out.println("Thank you for booking a room! Details:");
                                                 System.out.println(reservation.toString());
                                             }
-                                        }
-                                        else {
+                                        } else {
                                             System.out.println("Sorry, we're all booked! Try again later!");
 
                                         }
                                     }
 
-
-                                }
-                                else{
-                                    for (IRoom room : availableRooms){
+                                } else {
+                                    for (IRoom room : availableRooms) {
                                         System.out.println(room.toString());
                                     }
                                     System.out.println("Would you like to book one of these rooms?");
                                     String bookARoom = Validators.getYOrN();
-                                    if(bookARoom.equals("y")){
+                                    if (bookARoom.equals("y")) {
                                         roomToReserve = Validators.bookARoom(availableRooms);
                                         IRoom bookedRoom = hotelResource.getRoom(roomToReserve);
-                                         Reservation reservation = hotelResource.bookARoom(email, bookedRoom, checkInDate, checkOutDate);
+                                        Reservation reservation = hotelResource.bookARoom(email, bookedRoom, checkInDate, checkOutDate);
                                         System.out.println("Thank you for booking a room! Details:");
                                         System.out.println(reservation.toString());
                                     }
@@ -113,12 +106,11 @@ public class App {
                     String customerEmail = sc.nextLine();
                     Customer customer = adminResource.getCustomer(customerEmail);
                     Collection<Reservation> customerReservations = hotelResource.getCustomerReservations(customer);
-                    if(customerReservations.isEmpty()){
+                    if (customerReservations.isEmpty()) {
                         System.out.println("Sorry, it doesn't appear you have any reservations with us.");
-                    }
-                    else{
+                    } else {
                         System.out.println("Your reservation(s):");
-                        for(Reservation reservation : customerReservations){
+                        for (Reservation reservation : customerReservations) {
                             System.out.println(reservation.toString());
                         }
                     }
@@ -128,16 +120,15 @@ public class App {
                 case 3:
                     Customer cust = Validators.createAccount();
                     boolean isDupCustomer = false;
-                    for(Customer c : adminResource.getAllCustomers()){
+                    for (Customer c : adminResource.getAllCustomers()) {
                         if (c.getEmail().equals(cust.getEmail())) {
                             isDupCustomer = true;
                             break;
                         }
                     }
-                    if(isDupCustomer){
+                    if (isDupCustomer) {
                         System.out.println("You already have an account with us.");
-                    }
-                    else {
+                    } else {
                         hotelResource.createACustomer(cust.getFirstName(), cust.getLastName(), cust.getEmail());
                         System.out.println("Thank you " + cust.getFirstName() + " for registering with us!");
                     }
@@ -149,12 +140,12 @@ public class App {
                     do {
                         adminMenuSelection = Integer.parseInt(Validators.getAdminMenu());
 
-                        switch(adminMenuSelection) {
+                        switch (adminMenuSelection) {
 
                             // See all customers
                             case 1:
                                 Collection<Customer> customers = adminResource.getAllCustomers();
-                                for(Customer c: customers){
+                                for (Customer c : customers) {
                                     System.out.println(c.toString());
                                 }
                                 break;
@@ -162,7 +153,7 @@ public class App {
                             // See all rooms
                             case 2:
                                 Collection<IRoom> rooms = adminResource.getAllRooms();
-                                for(IRoom room: rooms){
+                                for (IRoom room : rooms) {
                                     System.out.println(room.toString());
                                 }
                                 break;
@@ -178,25 +169,24 @@ public class App {
                                 List<IRoom> newRooms = new ArrayList<>();
 
                                 String addAnotherRoom = "y";
-                                while(addAnotherRoom.equals("y")){
+                                while (addAnotherRoom.equals("y")) {
                                     IRoom room = Validators.addARoom();
                                     boolean isDupRoomNum = false;
-                                    for(IRoom r : existingRooms){
-                                        if(r.getRoomNumber().equals(room.getRoomNumber())){
+                                    for (IRoom r : existingRooms) {
+                                        if (r.getRoomNumber().equals(room.getRoomNumber())) {
                                             isDupRoomNum = true;
                                         }
                                     }
-                                    if(isDupRoomNum){
+                                    if (isDupRoomNum) {
                                         System.out.println("Sorry. Room number " + room.getRoomNumber() + " is already in the system.");
-                                    }
-                                    else{
+                                    } else {
                                         newRooms.add(room);
                                         System.out.println("Thank you. Room " + room.getRoomNumber() + " was added.");
                                     }
 
                                     System.out.println("Would you like to add another room (y/n)?");
                                     addAnotherRoom = sc.nextLine().toLowerCase();
-                                    while(!addAnotherRoom.equals("y") && !addAnotherRoom.equals("n")){
+                                    while (!addAnotherRoom.equals("y") && !addAnotherRoom.equals("n")) {
                                         System.out.println("Please enter y or n");
                                         System.out.println("Would you like to add another room (y/n)?");
                                         addAnotherRoom = sc.nextLine().toLowerCase();
@@ -212,7 +202,7 @@ public class App {
                                 Room room101 = new Room("101", 59.99, RoomType.DOUBLE);
                                 Room room102 = new Room("102", 59.99, RoomType.DOUBLE);
                                 List<IRoom> rms = new ArrayList<>();
-                                /*rms.add(new Room(room101.getRoomNumber(), room101.getRoomPrice(), room101.getRoomType()));
+                                rms.add(new Room(room101.getRoomNumber(), room101.getRoomPrice(), room101.getRoomType()));
                                 rms.add(new Room(room102.getRoomNumber(), room102.getRoomPrice(), room102.getRoomType()));
                                 rms.add(new Room("103", 59.99, RoomType.DOUBLE));
                                 rms.add(new Room("104", 49.99, RoomType.SINGLE));
@@ -221,7 +211,7 @@ public class App {
                                 rms.add(new FreeRoom("107", RoomType.DOUBLE));
                                 rms.add(new FreeRoom("108", RoomType.DOUBLE));
                                 rms.add(new FreeRoom("109", RoomType.SINGLE));
-                                adminResource.addRoom(rms);*/
+                                adminResource.addRoom(rms);
 
                                 // add some customers
                                 Customer tiia = new Customer("Tiia", "Kansa", "tiia@gmail.com");
@@ -234,12 +224,12 @@ public class App {
                                 Date chout1 = new Date();
                                 Date chin2 = new Date();
                                 Date chout2 = new Date();
-                                try{
+                                try {
                                     chin1 = new SimpleDateFormat("MM/dd/yyyy").parse("07/22/2022");
                                     chout1 = new SimpleDateFormat("MM/dd/yyyy").parse("08/04/2022");
                                     chin2 = new SimpleDateFormat("MM/dd/yyyy").parse("09/22/2022");
                                     chout2 = new SimpleDateFormat("MM/dd/yyyy").parse("10/01/2022");
-                                } catch (ParseException e){
+                                } catch (ParseException e) {
                                     System.out.println("Invalid date format");
                                 }
                                 hotelResource.bookARoom(tiia.getEmail(), room101, chin1, chout1);
@@ -254,7 +244,7 @@ public class App {
                 default:
                     break;
             }
-        }while(mainMenuSelection != 5);
+        } while (mainMenuSelection != 5);
         System.out.println("Thank you for visiting the Overlook!");
     }
 }
