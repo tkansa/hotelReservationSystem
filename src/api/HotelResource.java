@@ -40,4 +40,9 @@ public class HotelResource {
     public Collection<IRoom> findARoom(Date checkInDate, Date checkOutDate){
         return reservationService.findRooms(checkInDate, checkOutDate);
     }
+
+    // TODO delete when done
+    public void Test(){
+
+    }
 }

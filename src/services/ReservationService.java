@@ -46,7 +46,11 @@ public class ReservationService {
 
         // find all the rooms that aren't booked at all
         for(IRoom room : rooms){
-            boolean isFree = true;
+
+            if(findUnreservedRoom(room)){
+                foundRooms.add(room);
+            }
+            /*boolean isFree = true;
             for(Reservation reservation : reservations){
                 if(room.getRoomNumber().equals(reservation.getRoom().getRoomNumber())){
                     isFree = false;
@@ -54,7 +58,7 @@ public class ReservationService {
             }
             if(isFree){
                 foundRooms.add(room);
-            }
+            }*/
         }
         for(Reservation reservation : reservations){
             Date reservationCheckInDate = reservation.getCheckInDate();
@@ -84,10 +88,21 @@ public class ReservationService {
         }
     }
 
+    boolean findUnreservedRoom(IRoom room){
+        boolean isUnreserved = true;
+        for(Reservation r: reservations){
+            if(room.getRoomNumber().equals(r.getRoom().getRoomNumber())){
+                isUnreserved = false;
+            }
+        }
+        return isUnreserved;
+    }
+
     public static ReservationService getInstance(){
         if(reservationService == null){
             reservationService = new ReservationService();
         }
         return reservationService;
     }
+
 }
